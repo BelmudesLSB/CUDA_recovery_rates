@@ -6,27 +6,64 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include <mex.h>
+#include "aux_host.h"
 
 /// By default all variables are in the host. Else, they will have a d_ prefix.
 
 void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
 
-    // Load and read in the parameters from matlab:
-
-    const mxArray* parmsStruct = prhs[0];
-
-    // Load the parameters from the struct to a class:
-
+    // Load the parameters from the struct to a class, and print them:
     Parameters_host p_host;
-    p_host.read_parameters(parmsStruct);
+    p_host.read_parameters(prhs[0]);
+    p_host.print_parameters();
 
-    mexPrintf(p_host.b_grid_size_lowr);
+    // Using the parameters, create the vectors and store everything in host memory:
+    Vectors_host v_host(p_host);
 
-    /// Export to matlab:
-    const char* fieldNames[nfields] = {"b"};
-    plhs[0] = mxCreateStructMatrix(1,1,nfields,fieldNames);
-    mxSetField(plhs[0], 0, "y_grid", p_host.b_grid_size_lowr);
+    //initialize_economy(p_host, v_host);
 
+    // Create the pointer in MATLAB to store the results
+    mxArray* Q_m_lowr = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* Q_m_highr = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* V_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* V_r_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* V_d_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* B_policy_m_lowr = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* B_policy_m_highr = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* D_policy_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* iter_m = mxCreateDoubleMatrix(1, 1, mxREAL);
+    mxArray* err_q_m = mxCreateDoubleMatrix(1, 1, mxREAL);
+    mxArray* err_v_m = mxCreateDoubleMatrix(1, 1, mxREAL);
+    mxArray* Y_grid_m = mxCreateDoubleMatrix(p_host.y_grid_size, 1, mxREAL);
+    mxArray* Y_grid_default_m = mxCreateDoubleMatrix(p_host.y_grid_size, 1, mxREAL);
+    mxArray* B_grid_lowr_m = mxCreateDoubleMatrix(p_host.b_grid_size_lowr, 1, mxREAL);
+    mxArray* B_grid_highr_m = mxCreateDoubleMatrix(p_host.b_grid_size_highr, 1, mxREAL);
+    mxArray* P_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.y_grid_size, 1, mxREAL);
+
+    // Store the results in the objects just constructed in matlab:
+    for (int i = 0; i < p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr; i++){
+        mxGetPr(Q_m_lowr)[i] = 4;
+    }
+
+    // Export the objects as a MATLAB structure:
+    const char* fieldNames[16] = {"Q_lowr", "Q_highr", "V", "V_r", "V_d", "B_policy_lowr", "B_policy_highr", "D_policy", "Y_grid", "Y_grid_default", "B_grid_lowr", "B_grid_highr", "P", "iter", "err_q", "err_v"};
+    plhs[0] = mxCreateStructMatrix(1, 1, 16, fieldNames);
+    mxSetField(plhs[0], 0, "Q_lowr", Q_m_lowr);
+    mxSetField(plhs[0], 0, "Q_highr", Q_m_highr);
+    mxSetField(plhs[0], 0, "V", V_m);
+    mxSetField(plhs[0], 0, "V_r", V_r_m);
+    mxSetField(plhs[0], 0, "V_d", V_d_m);
+    mxSetField(plhs[0], 0, "B_policy_lowr", B_policy_m_lowr);
+    mxSetField(plhs[0], 0, "B_policy_highr", B_policy_m_highr);
+    mxSetField(plhs[0], 0, "D_policy", D_policy_m);
+    mxSetField(plhs[0], 0, "Y_grid", Y_grid_m);
+    mxSetField(plhs[0], 0, "Y_grid_default", Y_grid_default_m);
+    mxSetField(plhs[0], 0, "B_grid_lowr", B_grid_lowr_m);
+    mxSetField(plhs[0], 0, "B_grid_highr", B_grid_highr_m);
+    mxSetField(plhs[0], 0, "P", P_m);
+    mxSetField(plhs[0], 0, "iter", iter_m);
+    mxSetField(plhs[0], 0, "err_q", err_q_m);
+    mxSetField(plhs[0], 0, "err_v", err_v_m);
 }
 
 

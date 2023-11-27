@@ -18,8 +18,8 @@ params.rho = 0.945;                    % Persistence of the income.
 params.sigma = 0.025;                  % Standard deviation of the income.
 params.theta = 0.282;                  % Probability of a re-entry.
 params.max_iter = 1000;                 % Maximum number of iterations.
+params.M = 3;
 params.tol = 1e-5;                     % Tolerance for the convergence.
-params.m = 3;                          % Number of standard deviations for the income grid.
 params.alpha_lowr = 0.00;              % Low recovery on defaulted debt.
 params.alpha_highr = 0.15;               % High recovery on defaulted debt.
 
