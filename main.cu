@@ -4,7 +4,6 @@
 */
 
 #include <iostream>
-#include <cuda_runtime.h>
 #include <mex.h>
 #include "aux_host.h"
 
@@ -19,8 +18,11 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
 
     // Using the parameters, create the vectors and store everything in host memory:
     Vectors_host v_host(p_host);
+    fill_vectors_host(p_host, v_host);
 
-    //initialize_economy(p_host, v_host);
+    // Solve in device:
+
+    // Export from device to host:
 
     // Create the pointer in MATLAB to store the results
     mxArray* Q_m_lowr = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr, 1, mxREAL);
@@ -40,10 +42,12 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     mxArray* B_grid_highr_m = mxCreateDoubleMatrix(p_host.b_grid_size_highr, 1, mxREAL);
     mxArray* P_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.y_grid_size, 1, mxREAL);
 
-    // Store the results in the objects just constructed in matlab:
-    for (int i = 0; i < p_host.y_grid_size * p_host.b_grid_size_lowr * p_host.b_grid_size_highr; i++){
-        mxGetPr(Q_m_lowr)[i] = 4;
-    }
+    // Copy from host to MATLAB:
+    copy_vector(v_host.y_grid, mxGetPr(Y_grid_m), p_host.y_grid_size);
+    copy_vector(v_host.y_grid_default, mxGetPr(Y_grid_default_m), p_host.y_grid_size);
+    copy_vector(v_host.b_grid_lowr, mxGetPr(B_grid_lowr_m), p_host.b_grid_size_lowr);
+    copy_vector(v_host.b_grid_highr, mxGetPr(B_grid_highr_m), p_host.b_grid_size_highr);
+    copy_vector(v_host.prob, mxGetPr(P_m), p_host.y_grid_size * p_host.y_grid_size);
 
     // Export the objects as a MATLAB structure:
     const char* fieldNames[16] = {"Q_lowr", "Q_highr", "V", "V_r", "V_d", "B_policy_lowr", "B_policy_highr", "D_policy", "Y_grid", "Y_grid_default", "B_grid_lowr", "B_grid_highr", "P", "iter", "err_q", "err_v"};

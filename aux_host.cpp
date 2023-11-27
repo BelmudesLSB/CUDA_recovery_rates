@@ -95,7 +95,7 @@ void create_income_under_default(double* prt_y_grid_default, double* prt_y_grid,
 }
 
 // Initialize the economy:
-void initialize_economy(Parameters_host p_host, Vectors_host v_host){
+void fill_vectors_host(Parameters_host p_host, Vectors_host v_host){
     create_bond_grids(v_host.b_grid_lowr, p_host.b_grid_size_lowr, p_host.b_grid_max_lowr, p_host.b_grid_min_lowr);
     create_bond_grids(v_host.b_grid_highr, p_host.b_grid_size_highr, p_host.b_grid_max_highr, p_host.b_grid_min_highr);
     create_income_and_prob_grids(v_host.y_grid, v_host.prob, p_host.y_grid_size, p_host.sigma, p_host.rho, p_host.M);
@@ -117,15 +117,15 @@ double utility(double c,  double gamma, double c_lb){
 }
 
 // Copy vector:
-void copy_vector(double* prt_vector, double* prt_vector_copy, int size){
+void copy_vector(double* prt_original, double* prt_copy, int size){
     for (int i=0; i<size; i++){
-        prt_vector_copy[i] = prt_vector[i];
+        prt_copy[i] = prt_original[i];
     }
 }
 
 // Copy vector:
-void copy_vector(int* prt_vector, int* prt_vector_copy, int size){
+void copy_vector(int* prt_original, int* prt_copy, int size){
     for (int i=0; i<size; i++){
-        prt_vector_copy[i] = (prt_vector[i]);
+        prt_copy[i] = (prt_original[i]);
     }
 }

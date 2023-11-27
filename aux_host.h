@@ -47,7 +47,7 @@ public:
     double *q_lowr;
     double *q_highr;
 
-    Vectors_host(const Parameters_host& params) {
+    Vectors_host(const Parameters_host& params){
         b_grid_lowr = new double[params.b_grid_size_lowr];
         b_grid_highr = new double[params.b_grid_size_highr];
         y_grid = new double[params.y_grid_size];
@@ -74,16 +74,16 @@ void create_income_and_prob_grids(double* prt_y_grid, double* prt_p_grid,  int N
 void create_income_under_default(double* prt_y_grid_default, double* prt_y_grid,  int Ny,  double y_def);
 
 // Creates bond policy functions:
-void initialize_economy(Parameters_host p_host, Vectors_host v_host);
+void fill_vectors_host(Parameters_host p_host, Vectors_host v_host);
 
 // Normal cumulative distribution function:
 double normalCDF(double x);
 
 // copy vector:
-void copy_vector(double* prt_vector1, double* prt_vector2, int size);
+void copy_vector(double* prt_original, double* prt_copy, int size);
 
 // copy vector:
-void copy_vector(int* prt_vector1, int* prt_vector2, int size);
+void copy_vector(int* prt_original, int* prt_copy, int size);
 
 // Utility function:
 double utility(double c,  double gamma);
