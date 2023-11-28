@@ -28,6 +28,7 @@ class Parameters_host {
 
         int read_parameters(const mxArray* mxPtr);
         void print_parameters();
+        int transfer_parameters_host_to_device();
     };
 
 // This class stores all the vectors in host memory:

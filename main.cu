@@ -15,6 +15,10 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     Parameters_host p_host;
     p_host.read_parameters(prhs[0]);
     p_host.print_parameters();
+    if (p_host.transfer_parameters_host_to_device()==1)
+    {
+        mexPrintf("Parameters copied to device successfully.\n");
+    }
 
     // Using the parameters, create the vectors and store everything in host memory:
     Vectors_host v_host(p_host);
