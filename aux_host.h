@@ -2,6 +2,7 @@
 #define aux_host_h
 #include "mex.h"
 
+// This class stores all the parameters in host memory:
 class Parameters_host {
     public:
         int b_grid_size_lowr;

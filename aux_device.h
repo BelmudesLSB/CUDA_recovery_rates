@@ -22,6 +22,7 @@ __constant__ double d_rho;
 __constant__ double d_alpha_lowr;
 __constant__ double d_alpha_highr;
 
+// This class contains the memory allocated on the device for the vectors:
 class Vectors_device{
 
     public:
