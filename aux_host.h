@@ -60,9 +60,12 @@ public:
         v_default = new double[params.y_grid_size * params.b_grid_size_lowr * params.b_grid_size_lowr];
         d_policy_lowr = new double[params.y_grid_size * params.b_grid_size_lowr * params.b_grid_size_lowr];
         d_policy_highr = new double[params.y_grid_size * params.b_grid_size_highr * params.b_grid_size_highr];
-        q_lowr = new double[params.y_grid_size * params.b_grid_size_lowr * params.b_grid_size_lowr];
-        q_highr = new double[params.y_grid_size * params.b_grid_size_highr * params.b_grid_size_highr];
+        q_lowr = new double[params.y_grid_size * params.b_grid_size_highr * params.b_grid_size_lowr];
+        q_highr = new double[params.y_grid_size * params.b_grid_size_highr * params.b_grid_size_lowr];
     }
+
+    // Free memory:
+    void Free_Memory();
 };
 
 // Creates bond grid:

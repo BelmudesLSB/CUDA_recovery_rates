@@ -25,7 +25,6 @@ int Parameters_host::read_parameters(const mxArray* mxPtr){
     M = mxGetScalar(mxGetField(mxPtr, 0, "M"));
     alpha_lowr = mxGetScalar(mxGetField(mxPtr, 0, "alpha_lowr"));
     alpha_highr = mxGetScalar(mxGetField(mxPtr, 0, "alpha_highr"));
-
     return 1;
 }
 
@@ -172,6 +171,22 @@ int Parameters_host::transfer_parameters_host_to_device(){
     return 1;
 }
 
+// Free memory from Vectors_host:
+void Vectors_host::Free_Memory(){
+    delete[] b_grid_lowr;
+    delete[] b_grid_highr;
+    delete[] y_grid;
+    delete[] y_grid_default;
+    delete[] prob;
+    delete[] b_policy_lowr;
+    delete[] b_policy_highr;
+    delete[] v_r;
+    delete[] v_default;
+    delete[] d_policy_lowr;
+    delete[] d_policy_highr;
+    delete[] q_lowr;    
+    delete[] q_highr;
+}
 // Create bond grids:
 void create_bond_grids(double* prt_bond_grid, int Nb, double Bmax, double Bmin){
     double bstep = (Bmax - Bmin)/(Nb - 1);

@@ -3,13 +3,13 @@ clear;
 
 %% Common parameters:
 
-params.b_grid_size_lowr = 100;           % Number of points in the grid for the bond price.
-params.b_grid_size_highr = 150;
+params.b_grid_size_lowr = 2;           % Number of points in the grid for the bond price.
+params.b_grid_size_highr = 10;
 params.b_grid_min_lowr = 0;          % Minimum value of the bond price.
 params.b_grid_min_highr = 0;
 params.b_grid_max_lowr = 0.7;           % Maximum value of the bond price.
 params.b_grid_max_highr = 1;
-params.y_grid_size = 21;               % Number of points in the grid for the income.
+params.y_grid_size = 7;               % Number of points in the grid for the income.
 params.y_default = 0.969;              % Maximum income under default.
 params.beta = 0.953;                   % Discount factor.
 params.gamma = 2;                      % Risk aversion.
