@@ -42,9 +42,7 @@ class Vectors_device{
 };
 
 
-__global__ void fill_q(double *q_lowr);
+__global__ void fill_q(Vectors_device v_device);
 
 
 #endif 
-
-

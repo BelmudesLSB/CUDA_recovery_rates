@@ -30,7 +30,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     cudaDeviceSynchronize();
 
     // Kernel launch
-    fill_q<<<1, p_host.b_grid_size_lowr*p_host.b_grid_size_highr*p_host.y_grid_size>>>(v_device.q_lowr);  
+    fill_q<<<1, p_host.b_grid_size_lowr*p_host.b_grid_size_highr*p_host.y_grid_size>>>(v_device);  
     cudaDeviceSynchronize();
 
     cudaMemcpy(v_host.q_lowr, v_device.q_lowr, p_host.b_grid_size_lowr*p_host.b_grid_size_highr*p_host.y_grid_size * sizeof(double), cudaMemcpyDeviceToHost);
@@ -86,8 +86,3 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     v_host.Free_Memory();
     v_device.Free_Memory();
 }
-
-
-
-
-
