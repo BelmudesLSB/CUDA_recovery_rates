@@ -3,6 +3,7 @@
 
 #include "cuda_runtime.h"
 #include "aux_host.h"
+#include "mex.h"
 
 __constant__ int d_b_grid_size_lowr;
 __constant__ int d_b_grid_size_highr;
@@ -41,8 +42,6 @@ class Vectors_device{
     void Free_Memory(); 
 };
 
-
 __global__ void fill_q(Vectors_device v_device);
-
 
 #endif 

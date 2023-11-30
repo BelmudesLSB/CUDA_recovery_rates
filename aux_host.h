@@ -1,5 +1,6 @@
 #ifndef aux_host_h
 #define aux_host_h
+
 #include "mex.h"
 
 // This class stores all the parameters in host memory:

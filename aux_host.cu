@@ -1,8 +1,4 @@
 #include "aux_host.h"
-#include "mex.h"
-#include "aux_device.h"
-#include "cuda_runtime.h"
-#include <iostream>
 
 // This function reads the parameters from matlab and stores them in a class in C++ in host memory.
 int Parameters_host::read_parameters(const mxArray* mxPtr){
@@ -51,126 +47,6 @@ void Parameters_host::print_parameters(){
     mexPrintf("alpha_highr: %f\n", alpha_highr);
 }
 
-// This function copies the parameters from the host to the device.
-int Parameters_host::transfer_parameters_host_to_device(){
-    cudaError_t cs;
-    cs = cudaMemcpyToSymbol(d_b_grid_size_lowr, &b_grid_size_lowr, sizeof(int));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_size to device\n");
-        return 0;
-    } 
-    cs = cudaMemcpyToSymbol(d_b_grid_size_highr, &b_grid_size_highr, sizeof(int));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_size to device\n");
-        return 0;
-    } 
-    cs = cudaMemcpyToSymbol(d_b_grid_min_lowr, &b_grid_min_lowr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_min to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_min_highr, &b_grid_min_highr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_min to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_max_lowr, &b_grid_max_lowr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_max to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_max_highr, &b_grid_max_highr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_max to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_y_grid_size, &y_grid_size, sizeof(int));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying y_grid_size to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_y_default, &y_default, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying y_default to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_beta, &beta, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying beta to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_gamma, &gamma, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying gamma to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_r, &r, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying r to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_rho, &rho, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying rho to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_theta, &theta, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying theta to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_tol, &tol, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying tol to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_max_iter, &max_iter, sizeof(int));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying max_iter to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_max_highr, &b_grid_max_highr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_max to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_max_lowr, &b_grid_max_lowr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_max to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_min_highr, &b_grid_min_highr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_max to device\n");
-        return 0;
-    }
-    cs = cudaMemcpyToSymbol(d_b_grid_min_lowr, &b_grid_min_lowr, sizeof(double));
-    if (cs != cudaSuccess)
-    {
-        mexPrintf("Error copying b_grid_max to device\n");
-        return 0;
-    }
-    return 1;
-}
-
 // Free memory from Vectors_host:
 void Vectors_host::Free_Memory(){
     delete[] b_grid_lowr;
@@ -187,6 +63,7 @@ void Vectors_host::Free_Memory(){
     delete[] q_lowr;    
     delete[] q_highr;
 }
+
 // Create bond grids:
 void create_bond_grids(double* prt_bond_grid, int Nb, double Bmax, double Bmin){
     double bstep = (Bmax - Bmin)/(Nb - 1);

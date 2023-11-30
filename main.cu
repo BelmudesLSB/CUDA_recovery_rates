@@ -7,6 +7,7 @@
 #include <mex.h>
 #include "aux_host.h"
 #include "aux_device.h"
+#include <cuda_runtime.h>
 
 /// By default all variables are in the host. Else, they will have a d_ prefix.
 
@@ -16,10 +17,8 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     Parameters_host p_host;
     p_host.read_parameters(prhs[0]);
     p_host.print_parameters();
-    if (p_host.transfer_parameters_host_to_device()==1)
-    {
-        mexPrintf("Parameters copied to device successfully.\n");
-    }
+    p_host.transfer_parameters_host_to_device();
+
     // Using the parameters, create the vectors and store everything in host memory:
     Vectors_host v_host(p_host);
     fill_vectors_host(p_host, v_host);

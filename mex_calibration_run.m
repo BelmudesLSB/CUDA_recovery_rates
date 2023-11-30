@@ -1,6 +1,9 @@
 clc; 
 clear;
 
+%% Compile CUDAMEX:
+mexcuda main.cu aux_host.cu aux_device.cu
+
 %% Common parameters:
 
 params.b_grid_size_lowr = 2;           % Number of points in the grid for the bond price.
