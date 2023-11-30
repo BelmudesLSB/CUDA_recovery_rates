@@ -110,7 +110,7 @@ void create_income_under_default(double* prt_y_grid_default, double* prt_y_grid,
 }
 
 // Initialize the economy:
-void fill_vectors_host(Parameters_host p_host, Vectors_host v_host){
+void Initialize_bondgrids_income_probability_vectors_host(Parameters_host p_host, Vectors_host v_host){
     create_bond_grids(v_host.b_grid_lowr, p_host.b_grid_size_lowr, p_host.b_grid_max_lowr, p_host.b_grid_min_lowr);
     create_bond_grids(v_host.b_grid_highr, p_host.b_grid_size_highr, p_host.b_grid_max_highr, p_host.b_grid_min_highr);
     create_income_and_prob_grids(v_host.y_grid, v_host.prob, p_host.y_grid_size, p_host.sigma, p_host.rho, p_host.M);

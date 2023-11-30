@@ -80,7 +80,7 @@ void create_income_and_prob_grids(double* prt_y_grid, double* prt_p_grid,  int N
 void create_income_under_default(double* prt_y_grid_default, double* prt_y_grid,  int Ny,  double y_def);
 
 // Creates bond policy functions:
-void fill_vectors_host(Parameters_host p_host, Vectors_host v_host);
+void Initialize_bondgrids_income_probability_vectors_host(Parameters_host p_host, Vectors_host v_host);
 
 // Normal cumulative distribution function:
 double normalCDF(double x);

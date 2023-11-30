@@ -21,7 +21,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
 
     // Using the parameters, create the vectors and store everything in host memory:
     Vectors_host v_host(p_host);
-    fill_vectors_host(p_host, v_host);
+    Initialize_bondgrids_income_probability_vectors_host(p_host, v_host);
 
     cudaError_t cudaStatus;
     // Solve in device:
@@ -51,7 +51,6 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     mxArray* B_grid_lowr_m = mxCreateDoubleMatrix(p_host.b_grid_size_lowr, 1, mxREAL);
     mxArray* B_grid_highr_m = mxCreateDoubleMatrix(p_host.b_grid_size_highr, 1, mxREAL);
     mxArray* P_m = mxCreateDoubleMatrix(p_host.y_grid_size * p_host.y_grid_size, 1, mxREAL);
-
 
     // Copy from host to MATLAB:
     copy_vector(v_host.y_grid, mxGetPr(Y_grid_m), p_host.y_grid_size);
